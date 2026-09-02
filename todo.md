@@ -1,0 +1,60 @@
+# Project TODO
+
+- [x] Preservar integralmente a especificação-mãe em `docs/PRODUCT_SPEC.md`.
+- [x] Criar `docs/ARCHITECTURE.md` com arquitetura alvo, limites da infraestrutura e decisões técnicas rastreáveis.
+- [x] Criar `docs/IMPLEMENTATION_CHECKLIST.md` com todos os requisitos e estados de validação definidos pela especificação-mãe.
+- [x] Registrar o mapa de módulos, entidades, contratos e modelo de permissão multi-guilda.
+- [x] Configurar o repositório remoto privado no GitHub e versionar a configuração não sensível.
+- [ ] Configurar o projeto Supabase, autenticação, PostgreSQL, Storage, Realtime, RLS e políticas de isolamento por guilda.
+- [ ] Configurar o projeto Cloudflare, Workers, Static Assets, Turnstile e integração de entrega compatível.
+- [ ] Obter e otimizar a logo oficial; preparar variações para cabeçalho, login, favicon e PWA.
+- [ ] Definir tokens visuais extraídos da marca e implementar o design system escuro, elegante, acessível e responsivo.
+- [ ] Implementar PWA instalável, manifest, ícones, service worker seguro e estratégia de atualização.
+- [ ] Implementar a autenticação e as separações entre conta, perfil social, jogador Free Fire, guilda, vínculo, cargo, permissão e status Premium.
+- [ ] Implementar a arquitetura multi-guilda e o isolamento de dados no banco, no backend e na interface.
+- [ ] Implementar RBAC por papel, permissões específicas e fluxo de auditoria administrativa.
+- [ ] Integrar de forma segura a API de consulta de guildas e jogadores descrita no README recebido.
+- [ ] Implementar gestão de guildas, membros, perfis de jogadores, Lines e indicadores de desempenho.
+- [ ] Implementar recrutamento, candidaturas, etapas de avaliação, aprovações e rejeições.
+- [ ] Implementar treinos, eventos, inscrições, presenças, resultados e organização de participantes.
+- [ ] Implementar rankings, métricas e registros de desempenho com critérios transparentes.
+- [ ] Implementar comunidade social, perfis públicos, posts e interações conforme a especificação-mãe.
+- [ ] Implementar notificações e Realtime somente para fluxos compatíveis, com autorização no servidor e políticas de acesso.
+- [ ] Implementar experiências públicas e privadas com navegação responsiva, sem links ou botões inoperantes.
+- [ ] Criar testes unitários, de integração, de banco, RLS, permissões e interface para os fluxos implementados.
+- [ ] Criar contas e dados de teste isolados exclusivamente para homologação, sem dados fictícios em produção.
+- [ ] Validar todos os botões, links, fluxos, estados vazios, erros, responsividade e acessibilidade.
+- [ ] Validar isolamento entre guildas, papéis de usuário, Realtime, auditoria e tratamento de falhas.
+- [ ] Corrigir falhas encontradas, executar retestes e atualizar os estados do checklist.
+- [ ] Executar comparação final entre a especificação-mãe e o sistema construído antes de qualquer publicação.
+- [ ] Criar checkpoint final e orientar a publicação somente após todos os requisitos estarem aprovados.
+- [ ] Resolver o bloqueio de autorização/conexão do conector Supabase e confirmar acesso ao projeto correto.
+- [ ] Validar a conexão Supabase após autorização, sem expor tokens ou secrets.
+- [x] Tentar conexão Supabase por rota alternativa (conector/API disponível) após falha repetida da autorização padrão.
+- [x] Registrar a causa do erro de autorização Supabase e a solução aplicada.
+- [x] Usar rota alternativa sem o conector Supabase quando a autorização continuar falhando.
+- [x] Confirmar limites e credenciais necessárias para a rota alternativa antes de executar migrations ou acessar dados.
+- [x] Criar migration foundation do Supabase com profiles, guildas, memberships, permissões, auditoria e funções de autorização.
+- [x] Aplicar a migration no projeto Supabase por uma conexão administrativa compatível e verificar o schema.
+- [x] Criar testes SQL/RLS iniciais para negar acesso cruzado entre guildas.
+- [x] Corrigir a policy `audit_logs_authorized_read` da migration foundation após erro SQL 42601 e retestar a aplicação completa.
+- [x] Verificar explicitamente tabelas, tipos, funções e policies da migration foundation no Supabase.
+- [x] Executar testes SQL/RLS básicos contra o schema foundation para confirmar isolamento e autorização.
+- [x] Retestar autenticação e acesso inicial ao banco após a migration foundation.
+- [x] Verificar explicitamente os enums `membership_status` e `platform_role` e as policies principais da foundation.
+- [x] Reexecutar Auth e acesso básico ao banco depois da migration foundation e registrar o resultado.
+- [x] Implementar o shell visual público com navegação, home, explorar, rankings, recrutamento, eventos e entrada na área privada.
+- [x] Implementar o dashboard privado inicial com troca clara entre Comunidade VK e Gerenciar Guilda.
+- [ ] Criar estados reais de carregamento, vazio, erro e ações sem botões sem função.
+- [x] Implementar rota `/app` real com shell privado e dashboard inicial separado da home pública.
+- [x] Adicionar gating de autenticação para `/app`, incluindo loading, estado não autenticado e CTA de login.
+- [x] Validar os links públicos restantes e a navegação para a área privada depois do gating.
+- [x] Criar duas contas de teste sintéticas e duas guildas de teste no Supabase, sem dados reais de usuários.
+- [x] Executar teste negativo de isolamento entre guildas com sessões autenticadas distintas.
+- [x] Remover ou desativar os dados sintéticos de teste após a validação.
+- [x] Adicionar troca explícita entre Comunidade VK e Gerenciar Guilda no dashboard privado.
+- [x] Atualizar o menu privado com módulos reais, substituindo Page 1 e Page 2.
+- [ ] Validar por clique os CTAs públicos e registrar a transição para `/app` com gating.
+- [ ] Fazer stage e commit do estado atual não sensível e confirmar push no remoto GitHub privado.
+- [ ] Verificar `.gitignore` e confirmar ausência de `.env` ou secrets no commit publicado no GitHub.
+- [ ] Registrar a URL do remoto GitHub privado e a confirmação do versionamento atual.

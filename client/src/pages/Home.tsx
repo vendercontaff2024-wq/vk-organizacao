@@ -1,33 +1,20 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+import { startLogin } from "@/const";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { ArrowRight, BarChart3, CalendarDays, Compass, Gamepad2, Menu, ShieldCheck, Swords, Users, X } from "lucide-react";
+import { useState } from "react";
+import { Link } from "wouter";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
+const links = ["Cenário", "Guildas", "Jogadores", "Rankings", "Recrutamento", "Eventos"];
+const hrefFor = (label: string) => `/${label.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`;
+
 export default function Home() {
-  // The useAuth hook provides authentication state.
-  // To implement login/logout, call logout(), or start login from an event
-  // handler: onClick={() => startLogin()} (imported from "@/const"). Never call
-  // startLogin() during render (no href={startLogin()}) — it mints a one-time
-  // nonce cookie and must run only at the moment of navigation.
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
-
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
-
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+  const [open, setOpen] = useState(false);
+  return <div className="min-h-screen bg-[#0b0c0d] text-[#f7f7f5]">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0b0c0d]/90 backdrop-blur-xl"><div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-8">
+      <Link href="/" className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#d8a83e]/50 bg-[#d8a83e]/10 text-[#e7b94b]"><Gamepad2 size={21}/></div><div><div className="text-sm font-semibold tracking-[0.22em] text-[#e7b94b]">VK</div><div className="-mt-1 text-xs tracking-[0.12em] text-white/70">ORGANIZAÇÃO</div></div></Link>
+      <nav className="hidden gap-7 lg:flex">{links.map(label => <Link key={label} href={hrefFor(label)} className="text-sm text-white/60 hover:text-white">{label}</Link>)}</nav>
+      <div className="hidden items-center gap-3 lg:flex"><Link href="/app" className="px-4 py-2 text-sm text-white/70 hover:text-white">Entrar</Link><Button onClick={startLogin} className="bg-[#d8a83e] text-[#17120a] hover:bg-[#efc45f]">Criar conta <ArrowRight size={16}/></Button></div>
+      <button className="rounded-lg border border-white/10 p-2 lg:hidden" aria-label={open ? "Fechar menu" : "Abrir menu"} onClick={() => setOpen(!open)}>{open ? <X size={20}/> : <Menu size={20}/>}</button>
+    </div>{open && <div className="border-t border-white/10 bg-[#111315] px-5 py-4 lg:hidden">{links.map(label => <Link key={label} href={hrefFor(label)} onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3 text-sm text-white/70 hover:bg-white/5">{label}</Link>)}<button onClick={startLogin} className="mt-2 flex w-full items-center justify-between rounded-lg bg-[#d8a83e] px-3 py-3 text-sm font-medium text-[#17120a]">Entrar ou criar conta <ArrowRight size={16}/></button></div>}</header>
+    <main><section className="relative overflow-hidden border-b border-white/10"><div className="absolute inset-0 opacity-30" style={{backgroundImage:"linear-gradient(rgba(216,168,62,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(216,168,62,.08) 1px, transparent 1px)",backgroundSize:"64px 64px"}}/><div className="relative mx-auto grid max-w-7xl gap-16 px-5 pb-24 pt-20 lg:grid-cols-[1.1fr_.9fr] lg:px-8 lg:pb-32 lg:pt-28"><div><div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#d8a83e]/30 bg-[#d8a83e]/10 px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-[#e7b94b]"><span className="h-1.5 w-1.5 rounded-full bg-[#e7b94b]"/> Comunidade e performance</div><h1 className="max-w-3xl text-5xl font-semibold leading-[1.02] tracking-[-0.05em] sm:text-6xl lg:text-8xl">Organize a força da sua <span className="text-[#e7b94b]">guilda.</span></h1><p className="mt-7 max-w-xl text-lg leading-8 text-white/60">Uma plataforma para comunidades de jogadores que precisam colaborar, recrutar, treinar e evoluir com clareza.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><Button onClick={startLogin} size="lg" className="bg-[#d8a83e] text-[#17120a] hover:bg-[#efc45f]">Começar agora <ArrowRight size={17}/></Button><Link href="/explorar" className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-white/15 px-6 text-sm text-white/80 hover:bg-white/5">Explorar o cenário <Compass size={17}/></Link></div><div className="mt-12 flex flex-wrap gap-6 text-xs uppercase tracking-[0.14em] text-white/35"><span>Multi-guilda</span><span>Permissões granulares</span><span>Realtime</span></div></div><div className="flex items-end justify-end"><div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#141719] p-5 shadow-2xl shadow-black/40"><div className="flex items-center justify-between border-b border-white/10 pb-5"><div><div className="text-xs uppercase tracking-[0.18em] text-white/35">Visão da guilda</div><div className="mt-2 text-xl font-medium">Painel de organização</div></div><div className="rounded-lg bg-[#d8a83e]/10 p-2 text-[#e7b94b]"><BarChart3 size={20}/></div></div><div className="grid grid-cols-2 gap-3 py-5"><div className="rounded-xl bg-white/[0.04] p-4"><div className="text-xs text-white/40">Metas</div><div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full w-3/4 rounded-full bg-[#d8a83e]"/></div><div className="mt-2 text-xs text-white/50">Acompanhamento semanal</div></div><div className="rounded-xl bg-white/[0.04] p-4"><div className="text-xs text-white/40">Próximo evento</div><div className="mt-3 flex items-center gap-2 text-sm"><CalendarDays size={15} className="text-[#e7b94b]"/> Agenda da guilda</div><div className="mt-2 text-xs text-white/50">Detalhes por permissão</div></div></div><div className="flex items-center justify-between rounded-xl border border-[#d8a83e]/20 bg-[#d8a83e]/[0.06] p-4"><div className="flex items-center gap-3"><div className="h-9 w-9 rounded-full bg-gradient-to-br from-[#e7b94b] to-[#76561c]"/><div><div className="text-sm">Contexto seguro</div><div className="text-xs text-white/40">Cada guilda vê o que deve ver</div></div></div><ShieldCheck size={18} className="text-[#e7b94b]"/></div></div></div></div></section><section className="mx-auto max-w-7xl px-5 py-24 lg:px-8"><div className="max-w-2xl"><div className="text-xs uppercase tracking-[0.18em] text-[#e7b94b]">Uma base para crescer</div><h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">Menos ruído. Mais organização.</h2><p className="mt-5 text-base leading-7 text-white/55">O VK conecta a operação diária da guilda à comunidade pública, com uma experiência clara para liderança, membros, organizadores e jogadores em busca de uma nova casa.</p></div><div className="mt-14 grid gap-4 md:grid-cols-3">{[[ShieldCheck,"Governança","Permissões granulares, histórico de ações e isolamento por guilda desde a base."],[Swords,"Desempenho","Metas, Lines, temporadas e resultados organizados para evoluir."],[Users,"Comunidade","Perfis públicos, feed, recrutamento e eventos com privacidade."]].map(([Icon,title,text]) => {const I=Icon as typeof ShieldCheck; return <article key={title as string} className="rounded-2xl border border-white/10 bg-[#111315] p-6 hover:border-[#d8a83e]/30"><div className="w-fit rounded-xl border border-white/10 bg-white/[0.03] p-3 text-[#e7b94b]"><I size={20}/></div><h3 className="mt-10 text-xl font-medium">{title as string}</h3><p className="mt-3 text-sm leading-6 text-white/50">{text as string}</p></article>})}</div></section></main><footer className="mx-auto flex max-w-7xl flex-col gap-5 border-t border-white/10 px-5 py-10 text-sm text-white/40 sm:flex-row sm:items-center sm:justify-between lg:px-8"><div className="flex items-center gap-2 text-white/70"><Gamepad2 size={16} className="text-[#e7b94b]"/> VK ORGANIZAÇÃO</div><div className="flex gap-5"><Link href="/termos" className="hover:text-white">Termos de Uso</Link><Link href="/privacidade" className="hover:text-white">Privacidade</Link></div><span>Comunidade para jogar melhor.</span></footer></div>;
 }

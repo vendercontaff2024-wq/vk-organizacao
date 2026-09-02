@@ -1,0 +1,22 @@
+import { ArrowLeft, ArrowRight, Compass, Gamepad2, ShieldCheck } from "lucide-react";
+import { Link, useLocation } from "wouter";
+
+const content: Record<string, { eyebrow: string; title: string; text: string; action: string }> = {
+  explorar: { eyebrow: "Cenário", title: "Encontre seu próximo desafio.", text: "Uma visão pública para descobrir guildas, jogadores e eventos quando os dados estiverem publicados com as permissões corretas.", action: "Ver guildas" },
+  cenario: { eyebrow: "Cenário", title: "O jogo acontece em rede.", text: "Acompanhe o ecossistema de comunidades com contexto, transparência e espaço para novas conexões.", action: "Explorar guildas" },
+  guildas: { eyebrow: "Guildas", title: "Comunidades com identidade.", text: "Perfis públicos de guildas, recrutamento e agenda em um só lugar — sem misturar dados privados de nenhuma organização.", action: "Ir para recrutamento" },
+  jogadores: { eyebrow: "Jogadores", title: "Mostre como você joga.", text: "Um perfil construído para reunir identidade, objetivos e evolução sem transformar pessoas em apenas uma tabela de números.", action: "Explorar cenário" },
+  rankings: { eyebrow: "Rankings", title: "Competição com contexto.", text: "Rankings públicos serão alimentados por resultados verificados e regras claras, com distinção entre dados públicos e métricas internas.", action: "Conhecer guildas" },
+  recrutamento: { eyebrow: "Recrutamento", title: "A próxima Line pode começar aqui.", text: "Conecte intenção, disponibilidade e estilo de jogo a guildas que realmente combinam com você.", action: "Explorar guildas" },
+  eventos: { eyebrow: "Eventos", title: "A agenda da comunidade.", text: "Treinos, campeonatos e encontros organizados em uma agenda simples, respeitando visibilidade e permissões.", action: "Ver cenário" },
+  termos: { eyebrow: "Governança", title: "Termos de Uso", text: "Esta área será preenchida com os termos aprovados pela organização antes da abertura pública da plataforma.", action: "Voltar ao início" },
+  privacidade: { eyebrow: "Governança", title: "Privacidade", text: "A privacidade é parte da arquitetura: isolamento por guilda, acesso por papel e auditoria orientam cada fluxo protegido.", action: "Voltar ao início" },
+  colaboradores: { eyebrow: "VK", title: "Colabore com a comunidade.", text: "Espaço para iniciativas, parcerias e pessoas que ajudam a construir um cenário mais organizado.", action: "Voltar ao início" },
+};
+
+export default function PublicSection({ section }: { section: string }) {
+  const [, navigate] = useLocation();
+  const item = content[section] ?? content.explorar;
+  const next = item.action === "Voltar ao início" ? "/" : item.action.includes("recrutamento") ? "/recrutamento" : item.action.includes("guildas") ? "/guildas" : item.action.includes("cenário") ? "/cenario" : "/explorar";
+  return <div className="min-h-screen bg-[#0b0c0d] text-[#f7f7f5]"><header className="border-b border-white/10"><div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-8"><Link href="/" className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#d8a83e]/50 bg-[#d8a83e]/10 text-[#e7b94b]"><Gamepad2 size={21}/></div><span className="text-sm font-semibold tracking-[0.18em] text-[#e7b94b]">VK ORGANIZAÇÃO</span></Link><Link href="/" className="flex items-center gap-2 text-sm text-white/60 hover:text-white"><ArrowLeft size={16}/> Início</Link></div></header><main className="mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32"><div className="max-w-3xl"><div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[#e7b94b]"><Compass size={15}/> {item.eyebrow}</div><h1 className="mt-6 text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">{item.title}</h1><p className="mt-7 max-w-2xl text-lg leading-8 text-white/55">{item.text}</p><div className="mt-10 flex flex-col gap-3 sm:flex-row"><button onClick={() => navigate(next)} className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#d8a83e] px-6 text-sm font-medium text-[#17120a] hover:bg-[#efc45f]">{item.action} <ArrowRight size={16}/></button><Link href="/" className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-white/15 px-6 text-sm text-white/75 hover:bg-white/5"><ShieldCheck size={16}/> Como o VK protege dados</Link></div></div></main></div>;
+}
