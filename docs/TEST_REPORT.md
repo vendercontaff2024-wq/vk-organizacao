@@ -33,3 +33,9 @@
 | Publicação | Bloqueada | Não executar antes da aprovação do checklist integral |
 
 O smoke test navegou por clique para exploração, retornou ao início e confirmou a renderização protegida de `/app`. Os CTAs que iniciam login externo não são submetidos automaticamente a credenciais ou consentimentos; essa validação permanece um gate manual/assistido antes da publicação.
+
+### Ponte JWT e vínculo server-only
+
+O teste `server/supabaseRealtimeToken.procedure.test.ts` foi executado com sucesso em 02/09/2026, cobrindo três cenários. Uma sessão Manus autenticada com vínculo persistido recebeu um JWT Realtime cujo `sub` correspondeu ao usuário Supabase vinculado; uma sessão Manus autenticada sem vínculo recebeu `FORBIDDEN`; e um usuário Supabase autenticado tentou consultar `identity_links` pelo PostgREST sem obter dados. O gateway foi aceito como seguro quando retornou `401`/`403` ou `200` com lista vazia, conforme a configuração do projeto, sem expor qualquer credencial.
+
+A asserção foi corrigida após a primeira execução rejeitar uma resposta de negação válida por esperar apenas `200`. Depois da correção, os três testes passaram. O secret JWT permanece somente no ambiente server-side e a `service_role` não é usada no navegador.

@@ -61,3 +61,17 @@
 - [ ] Adicionar cliente Supabase Realtime com assinatura por guilda e cleanup seguro.
 - [x] Criar tabela de atualizações de comunidade publicada no Realtime com RLS e teste de autorização.
 - [ ] Validar recebimento de atualização em tempo real entre sessões da mesma guilda e negar sessão externa.
+- [ ] Implementar a primeira camada funcional de gestão de guilda, membros e perfil público sobre as tabelas Supabase.
+- [ ] Implementar contrato de consulta e mutação server-side com escopo obrigatório de guilda e permission checks.
+- [ ] Cobrir os fluxos iniciais com testes de autorização, estados vazios e erros de UI.
+- [x] Criar vínculo persistente entre `users.openId` do Manus e `auth.users.id` do Supabase sem expor identificadores privados ao cliente.
+- [x] Emitir token Realtime curto exclusivamente no servidor para o usuário vinculado.
+- [x] Testar a ponte com uma sessão autenticada e aplicar RLS ao vínculo server-only.
+- [x] Resolver `identity_links` pela sessão Manus no servidor antes de emitir o JWT Realtime.
+- [x] Criar procedure protegida `auth.supabaseRealtimeToken` sem aceitar identificador Supabase do cliente.
+- [x] Testar token para sessão vinculada e negar sessão sem vínculo ou com vínculo inexistente.
+- [x] Testar `auth.supabaseRealtimeToken` com contexto Manus autenticado e vínculo existente.
+- [x] Testar `auth.supabaseRealtimeToken` com contexto Manus autenticado sem vínculo e confirmar `FORBIDDEN`.
+- [x] Confirmar em runtime que `identity_links` é inacessível para `authenticated`/cliente e registrar a evidência.
+- [x] Corrigir o teste server-only para aceitar a resposta de negação do PostgREST autenticado e registrar status seguro sem expor credenciais.
+- [x] Registrar em `docs/TEST_REPORT.md` o teste autenticado de `identity_links`, a negação segura e a suíte após correção.
