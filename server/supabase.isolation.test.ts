@@ -45,6 +45,15 @@ async function visibleGuilds(accessToken: string, guildId: string) {
   return (await response.json()) as Array<{ id: string }>;
 }
 
+async function visibleUpdates(accessToken: string, guildId: string) {
+  if (!url || !anon) throw new Error("Credenciais públicas Supabase não configuradas");
+  const response = await fetch(`${url}/rest/v1/community_updates?guild_id=eq.${guildId}&select=id,body`, {
+    headers: { apikey: anon, Authorization: `Bearer ${accessToken}` },
+  });
+  expect(response.ok).toBe(true);
+  return (await response.json()) as Array<{ id: string; body: string }>;
+}
+
 describe("Supabase guild isolation", () => {
   it("does not expose a private guild to a member of another guild", async () => {
     const suffix = `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
@@ -55,6 +64,7 @@ describe("Supabase guild isolation", () => {
     let userB = "";
     let guildA = "";
     let guildB = "";
+    const updateId = crypto.randomUUID();
 
     try {
       const createdA = await adminRequest("/auth/v1/admin/users", { method: "POST", body: JSON.stringify({ email: emailA, password, email_confirm: true, user_metadata: { test: true } }) });
@@ -76,6 +86,8 @@ describe("Supabase guild isolation", () => {
         insert into public.guild_memberships (guild_id, user_id, status, joined_at) values
           ('${guildA}', '${userA}', 'active', now()),
           ('${guildB}', '${userB}', 'active', now());
+        insert into public.community_updates (id, guild_id, author_user_id, body, visibility)
+          values ('${updateId}', '${guildA}', '${userA}', 'Atualização sintética de isolamento', 'guild');
       `);
 
       const sessionA = await signIn(emailA, password);
@@ -84,6 +96,8 @@ describe("Supabase guild isolation", () => {
       expect(await visibleGuilds(sessionA.access_token, guildB)).toEqual([]);
       expect((await visibleGuilds(sessionB.access_token, guildB)).map(row => row.id)).toEqual([guildB]);
       expect(await visibleGuilds(sessionB.access_token, guildA)).toEqual([]);
+      expect(await visibleUpdates(sessionA.access_token, guildA)).toEqual([{ id: updateId, body: "Atualização sintética de isolamento" }]);
+      expect(await visibleUpdates(sessionB.access_token, guildA)).toEqual([]);
     } finally {
       if (guildA || guildB) await sql(`delete from public.guilds where id in ('${guildA || crypto.randomUUID()}', '${guildB || crypto.randomUUID()}');`);
       if (userA) { const response = await adminRequest(`/auth/v1/admin/users/${userA}`, { method: "DELETE" }); expect([200, 204, 404]).toContain(response.status); }

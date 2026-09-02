@@ -23,11 +23,12 @@ describe("Supabase foundation", () => {
       select table_name
       from information_schema.tables
       where table_schema = 'public'
-        and table_name in ('profiles', 'guilds', 'guild_memberships', 'guild_permissions', 'guild_roles', 'guild_role_permissions', 'guild_member_roles', 'audit_logs')
+        and table_name in ('profiles', 'guilds', 'guild_memberships', 'guild_permissions', 'guild_roles', 'guild_role_permissions', 'guild_member_roles', 'audit_logs', 'community_updates')
       order by table_name;
     `) as Array<{ table_name: string }>;
     expect(result.map(row => row.table_name)).toEqual([
       "audit_logs",
+      "community_updates",
       "guild_member_roles",
       "guild_memberships",
       "guild_permissions",
@@ -67,25 +68,35 @@ describe("Supabase foundation", () => {
       join pg_namespace n on n.oid = c.relnamespace
       left join pg_policies p on p.schemaname = n.nspname and p.tablename = c.relname
       where n.nspname = 'public'
-        and c.relname in ('profiles', 'guilds', 'guild_memberships', 'guild_permissions', 'guild_roles', 'guild_role_permissions', 'guild_member_roles', 'audit_logs')
+        and c.relname in ('profiles', 'guilds', 'guild_memberships', 'guild_permissions', 'guild_roles', 'guild_role_permissions', 'guild_member_roles', 'audit_logs', 'community_updates')
       group by c.relname, c.relrowsecurity
       order by c.relname;
     `) as Array<{ table_name: string; rls_enabled: boolean; policy_count: number }>;
-    expect(result).toHaveLength(8);
+    expect(result).toHaveLength(9);
     expect(result.every(row => row.rls_enabled && row.policy_count > 0)).toBe(true);
 
     const policies = await runQuery(`
       select policyname
       from pg_policies
       where schemaname = 'public'
-        and policyname in ('guilds_public_read', 'memberships_self_or_authorized_read', 'roles_manage', 'audit_logs_authorized_read')
+        and policyname in ('guilds_public_read', 'memberships_self_or_authorized_read', 'roles_manage', 'audit_logs_authorized_read', 'community_updates_public_read')
       order by policyname;
     `) as Array<{ policyname: string }>;
     expect(policies.map(row => row.policyname)).toEqual([
       "audit_logs_authorized_read",
+      "community_updates_public_read",
       "guilds_public_read",
       "memberships_self_or_authorized_read",
       "roles_manage",
     ]);
+  }, 15_000);
+
+  it("publishes community updates to Supabase Realtime", async () => {
+    const result = await runQuery(`
+      select tablename
+      from pg_publication_tables
+      where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'community_updates';
+    `) as Array<{ tablename: string }>;
+    expect(result).toEqual([{ tablename: "community_updates" }]);
   }, 15_000);
 });

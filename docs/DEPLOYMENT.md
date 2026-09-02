@@ -36,3 +36,9 @@ Quando o login, 2FA, CAPTCHA, aceite de termos ou autorização de um provedor f
 ## Plano de reversão
 
 Cada preview e produção utilizam versão rastreável. Migrations destrutivas exigem backup/plano específico, revisão e estratégia de rollback. O rollback de código não é tratado como rollback automático de dados; alterações de schema devem ser compatíveis ou ter migration corretiva documentada.
+
+## GitHub privado
+
+O repositório remoto privado da implementação está em [github.com/vendercontaff2024-wq/vk-organizacao](https://github.com/vendercontaff2024-wq/vk-organizacao). O estado atual foi versionado no commit `8fd77d82d578f2c5362edd4a52414dddd0f4e7a2` e confirmado no branch `main`. A árvore local está limpa. A inspeção de nomes versionados encontrou apenas código de ambiente e documentação de configuração; valores de secrets não são armazenados no repositório.
+
+A publicação da aplicação permanece separada deste versionamento e continua bloqueada até os gates funcionais, de Realtime, acessibilidade, desempenho e comparação final com a especificação-mãe.

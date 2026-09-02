@@ -55,6 +55,9 @@
 - [x] Adicionar troca explícita entre Comunidade VK e Gerenciar Guilda no dashboard privado.
 - [x] Atualizar o menu privado com módulos reais, substituindo Page 1 e Page 2.
 - [ ] Validar por clique os CTAs públicos e registrar a transição para `/app` com gating.
-- [ ] Fazer stage e commit do estado atual não sensível e confirmar push no remoto GitHub privado.
-- [ ] Verificar `.gitignore` e confirmar ausência de `.env` ou secrets no commit publicado no GitHub.
-- [ ] Registrar a URL do remoto GitHub privado e a confirmação do versionamento atual.
+- [x] Fazer stage e commit do estado atual não sensível e confirmar push no remoto GitHub privado.
+- [x] Verificar `.gitignore` e confirmar ausência de `.env` ou secrets no commit publicado no GitHub.
+- [x] Registrar a URL do remoto GitHub privado e a confirmação do versionamento atual.
+- [ ] Adicionar cliente Supabase Realtime com assinatura por guilda e cleanup seguro.
+- [x] Criar tabela de atualizações de comunidade publicada no Realtime com RLS e teste de autorização.
+- [ ] Validar recebimento de atualização em tempo real entre sessões da mesma guilda e negar sessão externa.
